@@ -43,7 +43,8 @@ class LargeFileUploader {
       callback: (file) {
         data ??= {};
         data!["file"] = file;
-        upload(uploadUrl: uploadUrl, onSendProgress: onSendProgress, data: data!);
+        upload(
+            uploadUrl: uploadUrl, onSendProgress: onSendProgress, data: data!);
       },
     );
   }
@@ -53,7 +54,8 @@ class LargeFileUploader {
     String? customFileType,
     required OnFileSelectedListener callback,
   }) {
-    html.FileUploadInputElement fileUploadInputElement = html.FileUploadInputElement();
+    html.FileUploadInputElement fileUploadInputElement =
+        html.FileUploadInputElement();
     fileUploadInputElement.accept = customFileType ?? type.value;
     fileUploadInputElement.multiple = false;
     fileUploadInputElement.click();
@@ -85,7 +87,9 @@ class LargeFileUploader {
     });
 
     if (onSendWithFakePreProcessProgress != null) {
-      _timer = Timer.periodic(Duration(milliseconds: fakePreProcessProgressPeriodInMillisecond), (Timer timer) {
+      _timer = Timer.periodic(
+          Duration(milliseconds: fakePreProcessProgressPeriodInMillisecond),
+          (Timer timer) {
         if (_fakeProgress != fakePreProcessMaxProgress) {
           _fakeProgress++;
           onSendWithFakePreProcessProgress.call(_fakeProgress);
@@ -119,8 +123,9 @@ class LargeFileUploader {
       onSendProgress.call(data);
       if (data != 0) {
         _disposeTimerAndFakeProgress();
-        onSendWithFakePreProcessProgress
-            ?.call((fakePreProcessMaxProgress + (data * ((100 - fakePreProcessMaxProgress) / 100))).toInt());
+        onSendWithFakePreProcessProgress?.call((fakePreProcessMaxProgress +
+                (data * ((100 - fakePreProcessMaxProgress) / 100)))
+            .toInt());
       }
     } else if (data.toString() == 'request failed') {
       _disposeTimerAndFakeProgress();
